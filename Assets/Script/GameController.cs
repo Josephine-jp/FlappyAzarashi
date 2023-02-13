@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class GameController : MonoBehaviour
 
     public AzarashiController azarashi;
     public GameObject blocks;
+    public Text scoreText;
+    public Text stateText;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,11 @@ public class GameController : MonoBehaviour
     
         azarashi.SetSteerActive(false);
         blocks.SetActive(false);
+
+        scoreText.text = "Score : " + 0;
+
+        stateText.gameObject.SetActive(true);
+        stateText.text = "Ready";
         
     }
     void GameStart()
@@ -56,6 +64,10 @@ public class GameController : MonoBehaviour
         blocks.SetActive(true);
 
         azarashi.Flap();
+
+        stateText.gameObject.SetActive(false);
+        stateText.text = "";
+
     }
     void GameOver()
     {
@@ -63,6 +75,10 @@ public class GameController : MonoBehaviour
         ScrollObject[] scrollObjects = FindObjectsOfType<ScrollObject>();
 
         foreach(ScrollObject so in scrollObjects) so.enabled = false;
+
+        stateText.gameObject.SetActive(true);
+        stateText.text = "GameOver";
+
     }
     void Reload()
     {
@@ -72,5 +88,6 @@ public class GameController : MonoBehaviour
     public void IncreaseScore()
     {
         score++;
+        scoreText.text = "Score : " + score;
     }
 }
